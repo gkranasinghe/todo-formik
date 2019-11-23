@@ -1,7 +1,6 @@
 import React, {createContext, useState} from 'react';
-import Active from "./components/Active";
 import List from "./components/List";
-import New from "./components/New";
+import TaskForm from "./components/TaskForm";
 
 import {StyledButton, StyledApp} from './AppStyled'
 
@@ -16,6 +15,7 @@ const GlobalStyled = createGlobalStyle`
 const theme = {
     primary: '#D1004B',
     white: '#FFFFFF',
+    warning: '#E28417',
 };
 
 export const MyContext = createContext(null);
@@ -52,28 +52,32 @@ function App() {
     const getById = (taskId) => state.list.find(i => i.id === taskId);
     const deleteTask = (taskId) => {
         const newList = state.list.filter(i => i.id !== taskId);
-        setState({...state, list: newList, active: null})
+        setState({...state, list: newList, active: null});
     };
-    const changeTask = (task) => {
+    const editTask = (task) => {
         const newList = state.list.map(t => {
             if (t.id === task.id) {
-                return task
+                return task;
             }
             return t;
         });
-        setState({...state, list: newList, active: task});
+        setState({...state, list: newList, active: null, showNew: false});
     };
     const addTask = (task) => {
         let newList = state.list;
         newList.push(task);
-        setState({...state, list: newList, active: null});
+        setState({...state, list: newList, active: null, showNew: false});
     };
 
     const onShowNewTaskForm = () => {
         setState({ ...state, showNew:true, active: null} );
     };
 
-    const onHideNewTaskForm = () => {
+    const onShowEditTaskForm = (id) => {
+        setState({ ...state, showNew:false, active: getById(id)} );
+    };
+
+    const onHideTaskForm = () => {
         setState({ ...state, showNew:false, active: null} );
     };
 
@@ -86,14 +90,10 @@ function App() {
         <StyledApp className="App">
             <ThemeProvider theme={theme}>
                 <GlobalStyled/>
-
-                {state.active &&
-                    <Active/>
+                {(state.showNew || state.active)  &&
+                    <TaskForm addTask={addTask} editTask={editTask} deleteTask={deleteTask} showNew={state.showNew} active={state.active} onHideTaskForm={onHideTaskForm}/>
                 }
-                {state.showNew &&
-                    <New addTask={addTask} onHideNewTaskForm={onHideNewTaskForm}/>
-                }
-                <List/>
+                <List onShowEditTaskForm={onShowEditTaskForm}/>
                 <StyledButton onClick={onShowNewTaskForm}>Add new task</StyledButton>
             </ThemeProvider>
         </StyledApp>
