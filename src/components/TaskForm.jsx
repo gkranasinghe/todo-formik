@@ -7,10 +7,11 @@ import {
     StyledFieldBlock,
     SaveStyledButton,
     ControlBlock,
-    DeleteStyledButton
+    DeleteStyledButton,
+    Tooltip,
 } from './FormStyled'
 
-const TaskForm = ({showNew, deleteTask, onHideTaskForm, active}) => {
+const TaskForm = ({showNew, deleteTask, onHideTaskForm, active, dirty }) => {
 
     return (
         <StyledTaskForm>
@@ -18,15 +19,18 @@ const TaskForm = ({showNew, deleteTask, onHideTaskForm, active}) => {
                 <StyledFieldBlock borderBottom>
                     <StyledFields placeholder="Type task name..." name="name"/>
                     {
-                        active && <DeleteStyledButton onClick={() => deleteTask(active.id)} type="button">delete</DeleteStyledButton>
+                        active && <DeleteStyledButton color="warning" onClick={() => deleteTask(active.id)} type="button">delete</DeleteStyledButton>
                     }
                 </StyledFieldBlock>
                 <StyledFieldBlock>
                     <StyledFields placeholder="Type task description..." name="description"/>
                 </StyledFieldBlock>
                 <ControlBlock>
-                    <SaveStyledButton type="button" onClick={onHideTaskForm} outline>cancel</SaveStyledButton>
-                    <SaveStyledButton type="submit">{showNew ? "add" : "save"}</SaveStyledButton>
+                    <SaveStyledButton color="primary" type="button" onClick={onHideTaskForm} outline>cancel</SaveStyledButton>
+                    <SaveStyledButton color="primary" disabled={!dirty} type="submit">
+                        {showNew ? "add" : "save"}
+                        <span>You should enter or change the value</span>
+                    </SaveStyledButton>
                 </ControlBlock>
             </Form>
         </StyledTaskForm>

@@ -9,6 +9,7 @@ import { createGlobalStyle, ThemeProvider} from "styled-components";
 const GlobalStyled = createGlobalStyle`
     body{
         margin: 0;
+        font-family: 'Roboto', sans-serif;
     }
 `;
 
@@ -87,16 +88,16 @@ function App() {
 
     return (
         <MyContext.Provider value={context}>
-        <StyledApp className="App">
-            <ThemeProvider theme={theme}>
-                <GlobalStyled/>
-                {(state.showNew || state.active)  &&
-                    <TaskForm addTask={addTask} editTask={editTask} deleteTask={deleteTask} showNew={state.showNew} active={state.active} onHideTaskForm={onHideTaskForm}/>
-                }
-                <List onShowEditTaskForm={onShowEditTaskForm}/>
-                <StyledButton onClick={onShowNewTaskForm}>Add new task</StyledButton>
-            </ThemeProvider>
-        </StyledApp>
+            <StyledApp className="App">
+                <ThemeProvider theme={theme}>
+                    <GlobalStyled/>
+                    {(state.showNew || state.active)  &&
+                        <TaskForm addTask={addTask} editTask={editTask} deleteTask={deleteTask} showNew={state.showNew} active={state.active} onHideTaskForm={onHideTaskForm}/>
+                    }
+                    <List onShowEditTaskForm={onShowEditTaskForm}/>
+                    <StyledButton color="primary" onClick={onShowNewTaskForm}>Add new task</StyledButton>
+                </ThemeProvider>
+            </StyledApp>
         </MyContext.Provider>
     );
 }

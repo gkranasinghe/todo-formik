@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-export const StyledButton = styled.button`
-    background: ${({theme}) => theme.primary};
-    border:none;
+export const StyledButton = styled.button`    
+    background: ${(props) => props.outline ? "none" : props.theme[props.color]};
+    border: ${(props) => props.outline ? "2px solid" + props.theme[props.color]  : "none"};
     font-size: 16px;
     width:250px;
     height:50px;
@@ -10,20 +10,51 @@ export const StyledButton = styled.button`
     display:flex;
     align-items:center;
     justify-content:center;
-    color: ${({theme}) => theme.white};
+    color: ${(props) => props.outline ? props.theme[props.color] : props.theme.white};
     border-radius: 3px;
     text-transform: uppercase;
+    
+    position: relative;
     
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
     &:focus {
         outline:0;
-        background-color: ${(props) => props.theme.primary};
+        background-color: ${(props) => props.theme[props.color]};
         color: ${(props) => props.theme.white};
     }
     &:hover {
-        box-shadow: ${(props) => "0 0 10px" + props.theme.primary};
+        box-shadow: ${(props) => "0 0 10px" + props.theme[props.color]};
     }
+    &:disabled {
+        opacity: 60%;
+    }
+    &:hover:disabled{
+        box-shadow: none;
+    }
+    
+    & > span{
+        text-transform: none;
+        visibility: hidden;
+        width: 180px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        font-size: 13px;
+        
+        position: absolute;
+        z-index: 1;
+        bottom: 115%;
+        left: 50%;
+        margin-left: -90px;
+    }
+    
+    &:hover:disabled > span{
+        visibility: visible;
+    }
+    
 `;
 
 export const StyledApp = styled.div`
