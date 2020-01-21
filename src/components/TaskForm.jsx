@@ -8,7 +8,6 @@ import {
     SaveStyledButton,
     ControlBlock,
     DeleteStyledButton,
-    Tooltip,
 } from './FormStyled'
 
 const TaskForm = ({showNew, deleteTask, onHideTaskForm, active, dirty }) => {
